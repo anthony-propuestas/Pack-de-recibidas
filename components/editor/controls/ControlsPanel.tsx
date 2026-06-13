@@ -8,13 +8,14 @@ import ColorPicker from './ColorPicker'
 import ViewToggle from './ViewToggle'
 import Toolbar from './Toolbar'
 import ElementProperties from './ElementProperties'
-import DownloadButton from './DownloadButton'
+import SendDesignButton from './SendDesignButton'
 
 interface Props {
   theme: Theme
   colorSchemeId: string
   viewMode: '2d' | '3d'
   selectedEl: PlacaElement | null
+  elements: PlacaElement[]
   stageRef: React.RefObject<Konva.Stage>
   onThemeChange: (theme: Theme) => void
   onColorChange: (id: string) => void
@@ -25,9 +26,10 @@ interface Props {
 }
 
 export default function ControlsPanel({
-  theme, colorSchemeId, viewMode, selectedEl, stageRef,
+  theme, colorSchemeId, viewMode, selectedEl, elements, stageRef,
   onThemeChange, onColorChange, onViewModeChange, onAddElement, onUpdateElement, onRemoveElement,
 }: Props) {
+  const nameText = (elements.find((e) => e.id === 'el-name') as { text?: string } | undefined)?.text ?? ''
   return (
     <div className="flex flex-col gap-5 w-full">
       <ViewToggle viewMode={viewMode} onChange={onViewModeChange} />
@@ -64,11 +66,7 @@ export default function ControlsPanel({
         <ColorPicker colors={COLOR_SCHEMES} selectedId={colorSchemeId} onChange={onColorChange} />
       </div>
 
-      <DownloadButton stageRef={stageRef} name="" />
-
-      <p className="text-xs text-zinc-600 text-center leading-relaxed">
-        La imagen se descarga en alta resolución (2×). Ideal para imprimir o compartir.
-      </p>
+      <SendDesignButton stageRef={stageRef} nameText={nameText} />
     </div>
   )
 }

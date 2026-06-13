@@ -171,6 +171,7 @@ export default function FrameEditor() {
               colorSchemeId={state.colorSchemeId}
               viewMode={state.viewMode}
               selectedEl={selectedEl}
+              elements={state.elements}
               stageRef={stageRef}
               onThemeChange={handleThemeChange}
               onColorChange={handleColorChange}
