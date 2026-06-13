@@ -123,7 +123,7 @@ export default function FrameEditor() {
                   La tarjeta mide lo que la placa; el stage es más grande (bleed) y sobresale con
                   overflow visible para poder ver objetos que pasan el borde del marco. */}
               <div
-                className="rounded-xl shadow-2xl border border-white/[0.06] bg-[#111118]"
+                className="rounded-xl shadow-2xl border border-white/[0.06] bg-[#111118] overflow-hidden"
                 style={{
                   width: FRAME_W * scale,
                   height: FRAME_H * scale,
