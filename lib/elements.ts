@@ -69,7 +69,7 @@ function iconColumn(icons: string[], xCenter: number, side: 'L' | 'R'): EmojiEl[
 
 // Builds the editable elements derived from a theme: career title, ribbon name, year badge, and the icon columns.
 export function buildDefaultElements(theme: Theme, colorSchemeId: string): PlacaElement[] {
-  const color = getColorScheme(theme, colorSchemeId)
+  const color = getColorScheme(colorSchemeId)
 
   const career: TextEl = {
     id: CAREER_ID,
@@ -98,7 +98,7 @@ export function buildDefaultElements(theme: Theme, colorSchemeId: string): Placa
     rotation: 0,
     fontFamily: 'Playfair Display',
     fontSize: 30,
-    fill: color.header,
+    fill: color.text,
     fontStyle: 'italic',
     align: 'center',
   }

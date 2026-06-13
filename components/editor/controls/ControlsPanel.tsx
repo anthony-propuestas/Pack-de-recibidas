@@ -1,7 +1,7 @@
 'use client'
 
 import type Konva from 'konva'
-import { type Theme } from '@/lib/themes'
+import { type Theme, COLOR_SCHEMES } from '@/lib/themes'
 import type { PlacaElement } from '@/lib/elements'
 import ThemeSelector from './ThemeSelector'
 import ColorPicker from './ColorPicker'
@@ -61,7 +61,7 @@ export default function ControlsPanel({
 
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex flex-col gap-5">
         <ThemeSelector selectedId={theme.id} onSelect={onThemeChange} />
-        <ColorPicker colors={theme.colors} selectedId={colorSchemeId} onChange={onColorChange} />
+        <ColorPicker colors={COLOR_SCHEMES} selectedId={colorSchemeId} onChange={onColorChange} />
       </div>
 
       <DownloadButton stageRef={stageRef} name="" />

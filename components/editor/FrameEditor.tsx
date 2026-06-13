@@ -52,7 +52,7 @@ export default function FrameEditor() {
   const { ref: fitRef, scale } = useFitScale()
 
   const theme = getTheme(state.themeId)
-  const color = getColorScheme(theme, state.colorSchemeId)
+  const color = getColorScheme(state.colorSchemeId)
   const selectedEl = state.elements.find((e) => e.id === state.selectedId) ?? null
 
   const selectElement = useCallback((id: string | null) => {

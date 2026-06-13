@@ -18,19 +18,19 @@ export default function FrameTemplate({ color }: { color: ColorScheme }) {
   return (
     <>
       {/* Franja izquierda */}
-      <Rect x={0} y={HEADER_H} width={STRIP_W} height={CENTER_H} fill={color.primary} listening={false} />
+      <Rect x={0} y={HEADER_H} width={STRIP_W} height={CENTER_H} fill={color.color} listening={false} />
       {/* Franja derecha */}
       <Rect
         x={FRAME_W - STRIP_W}
         y={HEADER_H}
         width={STRIP_W}
         height={CENTER_H}
-        fill={color.primary}
+        fill={color.color}
         listening={false}
       />
 
       {/* Barra de cabecera */}
-      <Rect x={0} y={0} width={FRAME_W} height={HEADER_H} fill={color.header} listening={false} />
+      <Rect x={0} y={0} width={FRAME_W} height={HEADER_H} fill={color.color} listening={false} />
 
       {/* Badge del año (fondo) */}
       <Rect
@@ -38,7 +38,7 @@ export default function FrameTemplate({ color }: { color: ColorScheme }) {
         y={RIBBON_Y - 60}
         width={STRIP_W - 16}
         height={50}
-        fill={color.header}
+        fill={color.color}
         cornerRadius={6}
         listening={false}
       />
@@ -52,7 +52,7 @@ export default function FrameTemplate({ color }: { color: ColorScheme }) {
         text={'¡ME\nRECIBÍ!'}
         fontSize={12}
         fontStyle="bold"
-        fill={color.header}
+        fill={color.text}
         align="center"
         verticalAlign="middle"
         listening={false}
@@ -71,8 +71,8 @@ export default function FrameTemplate({ color }: { color: ColorScheme }) {
           ctx.closePath()
           ctx.fillStrokeShape(shape)
         }}
-        fill={color.ribbon}
-        stroke={color.header}
+        fill={color.color}
+        stroke="rgba(255,255,255,0.5)"
         strokeWidth={2}
         listening={false}
       />
@@ -91,7 +91,7 @@ export default function FrameTemplate({ color }: { color: ColorScheme }) {
           ctx.fillStrokeShape(shape)
         }}
         fill="transparent"
-        stroke={color.header}
+        stroke="rgba(255,255,255,0.5)"
         strokeWidth={1}
         opacity={0.5}
         listening={false}

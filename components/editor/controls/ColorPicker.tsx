@@ -23,7 +23,7 @@ export default function ColorPicker({ colors, selectedId, onChange }: Props) {
             className={`w-9 h-9 rounded-full border-4 transition ${
               selectedId === c.id ? 'border-gray-700 scale-110' : 'border-white shadow hover:scale-105'
             }`}
-            style={{ backgroundColor: c.primary }}
+            style={{ backgroundColor: c.color }}
           />
         ))}
       </div>

@@ -1,11 +1,27 @@
 export type ColorScheme = {
   id: string
   label: string
-  primary: string
-  header: string
-  ribbon: string
+  color: string
   text: string
 }
+
+// Paleta global de colores del marco (un solo color sólido por esquema), compartida por todos los temas.
+export const COLOR_SCHEMES: ColorScheme[] = [
+  { id: 'rose', label: 'Rosa', color: '#A65A6B', text: '#ffffff' },
+  { id: 'blue', label: 'Azul', color: '#4A6E96', text: '#ffffff' },
+  { id: 'purple', label: 'Violeta', color: '#6A4A96', text: '#ffffff' },
+  { id: 'green', label: 'Verde', color: '#3E8E5F', text: '#ffffff' },
+  { id: 'orange', label: 'Naranja', color: '#B5703A', text: '#ffffff' },
+  { id: 'gold', label: 'Dorado', color: '#9A7B2E', text: '#ffffff' },
+  { id: 'teal', label: 'Turquesa', color: '#2F8E84', text: '#ffffff' },
+  { id: 'red', label: 'Rojo', color: '#B0453F', text: '#ffffff' },
+  { id: 'navy', label: 'Azul Marino', color: '#3A4A78', text: '#ffffff' },
+  { id: 'coral', label: 'Coral', color: '#C75D45', text: '#ffffff' },
+  { id: 'mint', label: 'Menta', color: '#4FA378', text: '#ffffff' },
+  { id: 'lavender', label: 'Lavanda', color: '#6E5FA0', text: '#ffffff' },
+  { id: 'charcoal', label: 'Grafito', color: '#444B57', text: '#ffffff' },
+  { id: 'burgundy', label: 'Bordó', color: '#7A3047', text: '#ffffff' },
+]
 
 export type Theme = {
   id: string
@@ -15,7 +31,6 @@ export type Theme = {
   defaultNamePrefix: string
   leftIcons: string[]
   rightIcons: string[]
-  colors: ColorScheme[]
   defaultColorId: string
 }
 
@@ -28,12 +43,6 @@ export const THEMES: Theme[] = [
     defaultNamePrefix: 'Licenciada',
     leftIcons: ['📅', '📈', '🚧', '⚠️', '💻'],
     rightIcons: ['👑', '💡', '🚦', '🧯', '⛑️'],
-    colors: [
-      { id: 'rose', label: 'Rosa', primary: '#C4919A', header: '#8B5E65', ribbon: '#E8B4BB', text: '#ffffff' },
-      { id: 'blue', label: 'Azul', primary: '#7B9EC4', header: '#4A6E96', ribbon: '#A8C4E0', text: '#ffffff' },
-      { id: 'purple', label: 'Violeta', primary: '#9B7BC4', header: '#6A4A96', ribbon: '#C4A8E0', text: '#ffffff' },
-      { id: 'green', label: 'Verde', primary: '#7BC49B', header: '#4A9668', ribbon: '#A8E0C0', text: '#ffffff' },
-    ],
     defaultColorId: 'rose',
   },
   {
@@ -44,12 +53,6 @@ export const THEMES: Theme[] = [
     defaultNamePrefix: 'Doctora',
     leftIcons: ['🩺', '💊', '🏥', '🧬', '💉'],
     rightIcons: ['❤️', '🔬', '📋', '🩻', '⚕️'],
-    colors: [
-      { id: 'blue', label: 'Azul', primary: '#7B9EC4', header: '#4A6E96', ribbon: '#A8C4E0', text: '#ffffff' },
-      { id: 'rose', label: 'Rosa', primary: '#C4919A', header: '#8B5E65', ribbon: '#E8B4BB', text: '#ffffff' },
-      { id: 'green', label: 'Verde', primary: '#7BC49B', header: '#4A9668', ribbon: '#A8E0C0', text: '#ffffff' },
-      { id: 'purple', label: 'Violeta', primary: '#9B7BC4', header: '#6A4A96', ribbon: '#C4A8E0', text: '#ffffff' },
-    ],
     defaultColorId: 'blue',
   },
   {
@@ -60,12 +63,6 @@ export const THEMES: Theme[] = [
     defaultNamePrefix: 'Chef',
     leftIcons: ['🍽️', '🔪', '🥘', '🧁', '🍷'],
     rightIcons: ['⭐', '📖', '🌿', '⚖️', '🎂'],
-    colors: [
-      { id: 'orange', label: 'Naranja', primary: '#C4A07B', header: '#96724A', ribbon: '#E0C4A8', text: '#ffffff' },
-      { id: 'rose', label: 'Rosa', primary: '#C4919A', header: '#8B5E65', ribbon: '#E8B4BB', text: '#ffffff' },
-      { id: 'green', label: 'Verde', primary: '#7BC49B', header: '#4A9668', ribbon: '#A8E0C0', text: '#ffffff' },
-      { id: 'blue', label: 'Azul', primary: '#7B9EC4', header: '#4A6E96', ribbon: '#A8C4E0', text: '#ffffff' },
-    ],
     defaultColorId: 'orange',
   },
   {
@@ -76,12 +73,6 @@ export const THEMES: Theme[] = [
     defaultNamePrefix: 'Abogada',
     leftIcons: ['⚖️', '📜', '🏛️', '🔨', '📁'],
     rightIcons: ['👑', '🎯', '📚', '✍️', '🌟'],
-    colors: [
-      { id: 'gold', label: 'Dorado', primary: '#C4B07B', header: '#96824A', ribbon: '#E0CCA8', text: '#ffffff' },
-      { id: 'blue', label: 'Azul', primary: '#7B9EC4', header: '#4A6E96', ribbon: '#A8C4E0', text: '#ffffff' },
-      { id: 'purple', label: 'Violeta', primary: '#9B7BC4', header: '#6A4A96', ribbon: '#C4A8E0', text: '#ffffff' },
-      { id: 'rose', label: 'Rosa', primary: '#C4919A', header: '#8B5E65', ribbon: '#E8B4BB', text: '#ffffff' },
-    ],
     defaultColorId: 'gold',
   },
 ]
@@ -90,6 +81,6 @@ export function getTheme(id: string): Theme {
   return THEMES.find((t) => t.id === id) ?? THEMES[0]
 }
 
-export function getColorScheme(theme: Theme, colorId: string): ColorScheme {
-  return theme.colors.find((c) => c.id === colorId) ?? theme.colors[0]
+export function getColorScheme(colorId: string): ColorScheme {
+  return COLOR_SCHEMES.find((c) => c.id === colorId) ?? COLOR_SCHEMES[0]
 }
