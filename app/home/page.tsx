@@ -12,7 +12,7 @@ export default function HomePage() {
       <HowItWorks />
       <Testimonials />
       <CallToAction />
-      <footer className="bg-[#060609] border-t border-white/[0.04] text-zinc-600 text-center py-5 text-xs">
+      <footer className="bg-white border-t border-rose-100 text-slate-400 text-center py-5 text-xs">
         © {new Date().getFullYear()} Pack de Recibidas — Todos los derechos reservados
       </footer>
     </main>

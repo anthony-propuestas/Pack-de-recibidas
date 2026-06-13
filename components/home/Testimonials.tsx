@@ -21,33 +21,33 @@ const reviews = [
 
 export default function Testimonials() {
   return (
-    <section className="py-14 px-4 bg-[#09090f] border-t border-white/[0.05]">
+    <section className="py-14 px-4 bg-white border-t border-rose-100">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-10">
           <h2
             style={{ fontFamily: "'Oswald', sans-serif" }}
-            className="text-3xl md:text-4xl font-bold text-zinc-100 mb-2 uppercase tracking-wide"
+            className="text-3xl md:text-4xl font-bold text-slate-800 mb-2 uppercase tracking-wide"
           >
             Lo que dicen los egresados
           </h2>
-          <p className="text-zinc-500 text-sm">Miles de egresados ya crearon su placa con nosotros.</p>
+          <p className="text-slate-400 text-sm">Miles de egresados ya crearon su placa con nosotros.</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-4">
           {reviews.map((r) => (
             <div
               key={r.name}
-              className="bg-[#111118] rounded-xl border border-white/[0.06] p-5 flex flex-col gap-3"
+              className="bg-[#fdf5f8] rounded-xl border border-rose-100 p-5 flex flex-col gap-3 shadow-sm"
             >
-              <div className="flex gap-0.5 text-yellow-400 text-sm">★★★★★</div>
-              <p className="text-zinc-400 text-sm leading-relaxed flex-1">"{r.text}"</p>
-              <div className="flex items-center gap-3 pt-3 border-t border-white/[0.05]">
-                <div className="w-9 h-9 rounded-full bg-zinc-800 flex items-center justify-center text-lg shrink-0">
+              <div className="flex gap-0.5 text-rose-400 text-sm">★★★★★</div>
+              <p className="text-slate-500 text-sm leading-relaxed flex-1">"{r.text}"</p>
+              <div className="flex items-center gap-3 pt-3 border-t border-rose-100">
+                <div className="w-9 h-9 rounded-full bg-rose-100 flex items-center justify-center text-lg shrink-0">
                   {r.avatar}
                 </div>
                 <div>
-                  <div className="text-zinc-200 text-sm font-semibold">{r.name}</div>
-                  <div className="text-zinc-500 text-xs">{r.career}</div>
+                  <div className="text-slate-700 text-sm font-semibold">{r.name}</div>
+                  <div className="text-slate-400 text-xs">{r.career}</div>
                 </div>
               </div>
             </div>

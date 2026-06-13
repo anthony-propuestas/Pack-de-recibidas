@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 body {
   font-family: 'Poppins', system-ui, sans-serif;
-  background-color: #09090f;
-  color: #e2e2f0;
+  background-color: #fdf5f8;
+  color: #2d1826;
 }
