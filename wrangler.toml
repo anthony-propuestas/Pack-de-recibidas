@@ -9,3 +9,5 @@ id = "facf29bfc5d84743a286cda39d16e845"
 [[r2_buckets]]
 binding = "DESIGNS_R2"
 bucket_name = "pack-designs"
+
+# Secret set via: wrangler pages secret put ADMIN_SECRET
