@@ -97,11 +97,16 @@ export default function FrameEditor() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-[#09090f] py-6 px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">Diseñá tu Placa de Recibida</h1>
-          <p className="text-gray-500 text-sm mt-1">
+        <div className="mb-5">
+          <h1
+            style={{ fontFamily: "'Oswald', sans-serif" }}
+            className="text-2xl font-bold text-zinc-100 uppercase tracking-wide"
+          >
+            Diseñá tu Placa de Recibida
+          </h1>
+          <p className="text-zinc-500 text-sm mt-1">
             Arrastrá, redimensioná y agregá textos, emojis e imágenes. Mirá tu placa en 3D.
           </p>
         </div>
@@ -118,7 +123,7 @@ export default function FrameEditor() {
                   La tarjeta mide lo que la placa; el stage es más grande (bleed) y sobresale con
                   overflow visible para poder ver objetos que pasan el borde del marco. */}
               <div
-                className="rounded-xl shadow-2xl border border-gray-100 bg-white"
+                className="rounded-xl shadow-2xl border border-white/[0.06] bg-[#111118]"
                 style={{
                   width: FRAME_W * scale,
                   height: FRAME_H * scale,
@@ -145,14 +150,14 @@ export default function FrameEditor() {
 
               {state.viewMode === '3d' && (
                 <div
-                  className="rounded-xl shadow-2xl overflow-hidden bg-gradient-to-b from-slate-100 to-slate-300"
+                  className="rounded-xl shadow-2xl overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-900"
                   style={{ width: FRAME_W * scale, height: FRAME_H * scale }}
                 >
                   <Placa3D stageRef={stageRef} />
                 </div>
               )}
             </div>
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-zinc-600">
               {state.viewMode === '3d'
                 ? 'Arrastrá para orbitar · scroll para zoom · botón derecho para mover'
                 : `Vista previa — ${FRAME_W} × ${FRAME_H} px`}

@@ -1,14 +1,18 @@
 import Hero from '@/components/home/Hero'
+import Gallery from '@/components/home/Gallery'
 import HowItWorks from '@/components/home/HowItWorks'
+import Testimonials from '@/components/home/Testimonials'
 import CallToAction from '@/components/home/CallToAction'
 
 export default function HomePage() {
   return (
     <main>
       <Hero />
+      <Gallery />
       <HowItWorks />
+      <Testimonials />
       <CallToAction />
-      <footer className="bg-gray-800 text-gray-400 text-center py-6 text-sm">
+      <footer className="bg-[#060609] border-t border-white/[0.04] text-zinc-600 text-center py-5 text-xs">
         © {new Date().getFullYear()} Pack de Recibidas — Todos los derechos reservados
       </footer>
     </main>
