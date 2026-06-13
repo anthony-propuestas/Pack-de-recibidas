@@ -2,82 +2,72 @@
 
 import type Konva from 'konva'
 import { type Theme } from '@/lib/themes'
+import type { PlacaElement } from '@/lib/elements'
 import ThemeSelector from './ThemeSelector'
 import ColorPicker from './ColorPicker'
-import TextInput from './TextInput'
+import ViewToggle from './ViewToggle'
+import Toolbar from './Toolbar'
+import ElementProperties from './ElementProperties'
 import DownloadButton from './DownloadButton'
 
-interface EditorState {
-  themeId: string
-  headerText: string
-  namePrefix: string
-  name: string
-  year: string
-  colorSchemeId: string
-}
-
 interface Props {
-  state: EditorState
   theme: Theme
-  stageRef: React.RefObject<Konva.Stage | null>
-  onChange: (patch: Partial<EditorState>) => void
+  colorSchemeId: string
+  viewMode: '2d' | '3d'
+  selectedEl: PlacaElement | null
+  stageRef: React.RefObject<Konva.Stage>
   onThemeChange: (theme: Theme) => void
+  onColorChange: (id: string) => void
+  onViewModeChange: (mode: '2d' | '3d') => void
+  onAddElement: (el: PlacaElement) => void
+  onUpdateElement: (id: string, patch: Partial<PlacaElement>) => void
+  onRemoveElement: (id: string) => void
 }
 
-export default function ControlsPanel({ state, theme, stageRef, onChange, onThemeChange }: Props) {
+export default function ControlsPanel({
+  theme, colorSchemeId, viewMode, selectedEl, stageRef,
+  onThemeChange, onColorChange, onViewModeChange, onAddElement, onUpdateElement, onRemoveElement,
+}: Props) {
   return (
-    <div className="flex flex-col gap-5 w-full max-w-xs">
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex flex-col gap-5">
-        <ThemeSelector selectedId={state.themeId} onSelect={onThemeChange} />
-        <ColorPicker
-          colors={theme.colors}
-          selectedId={state.colorSchemeId}
-          onChange={(id) => onChange({ colorSchemeId: id })}
-        />
-      </div>
+    <div className="flex flex-col gap-5 w-full">
+      <ViewToggle viewMode={viewMode} onChange={onViewModeChange} />
 
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex flex-col gap-4">
-        <TextInput
-          label="Nombre de la carrera (cabecera)"
-          value={state.headerText}
-          onChange={(v) => onChange({ headerText: v })}
-          placeholder={theme.defaultHeader}
-          maxLength={40}
-        />
-        <div className="flex gap-2">
-          <div className="w-28">
-            <TextInput
-              label="Título"
-              value={state.namePrefix}
-              onChange={(v) => onChange({ namePrefix: v })}
-              placeholder="Licenciada"
-              maxLength={20}
-            />
-          </div>
-          <div className="flex-1">
-            <TextInput
-              label="Apellido / Nombre"
-              value={state.name}
-              onChange={(v) => onChange({ name: v })}
-              placeholder="Tu Apellido"
-              maxLength={30}
-            />
-          </div>
+      {viewMode === '3d' ? (
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 text-sm text-gray-500">
+          Estás en vista 3D. Volvé a <span className="font-medium text-gray-700">Editar (2D)</span> para
+          mover, agregar o modificar elementos.
         </div>
-        <TextInput
-          label="Año"
-          value={state.year}
-          onChange={(v) => onChange({ year: v })}
-          placeholder="2024"
-          maxLength={4}
-        />
+      ) : (
+        <>
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex flex-col gap-4">
+            <Toolbar onAdd={onAddElement} />
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+            {selectedEl ? (
+              <ElementProperties
+                el={selectedEl}
+                onUpdate={(patch) => onUpdateElement(selectedEl.id, patch)}
+                onRemove={() => onRemoveElement(selectedEl.id)}
+              />
+            ) : (
+              <p className="text-sm text-gray-400 text-center py-2">
+                Tocá un elemento en la placa para editarlo, moverlo o redimensionarlo.
+              </p>
+            )}
+          </div>
+        </>
+      )}
+
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex flex-col gap-5">
+        <ThemeSelector selectedId={theme.id} onSelect={onThemeChange} />
+        <ColorPicker colors={theme.colors} selectedId={colorSchemeId} onChange={onColorChange} />
       </div>
 
-      <DownloadButton stageRef={stageRef} name={state.name} />
+      <DownloadButton stageRef={stageRef} name="" />
 
       <p className="text-xs text-gray-400 text-center leading-relaxed">
-        La imagen se descarga en alta resolución (2×).{' '}
-        Ideal para imprimir o compartir en redes.
+        La imagen se descarga en alta resolución (2×). Ideal para imprimir o compartir.
       </p>
     </div>
   )

@@ -3,7 +3,7 @@
 import type Konva from 'konva'
 
 interface Props {
-  stageRef: React.RefObject<Konva.Stage | null>
+  stageRef: React.RefObject<Konva.Stage>
   name: string
 }
 
