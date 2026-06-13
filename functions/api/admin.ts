@@ -19,7 +19,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     return json({ error: 'unauthorized' }, 401)
   }
 
-  const listed = await env.DESIGNS_R2.list({ prefix: 'designs/', limit: 500 })
+  const listed = await env.DESIGNS_R2.list({ prefix: 'designs/', limit: 500, include: ['customMetadata'] })
 
   const items = listed.objects.map((obj) => ({
     key: obj.key,
