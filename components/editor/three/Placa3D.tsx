@@ -1,38 +1,44 @@
 'use client'
 
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
 import type Konva from 'konva'
-import { FRAME_W, FRAME_H, MARGIN } from '@/lib/frameConfig'
+import { FRAME_W, FRAME_H, STAGE_W, STAGE_H } from '@/lib/frameConfig'
 
 const ASPECT = FRAME_W / FRAME_H
 
+// Placa física (slab) 4×3; el plano de impresión cubre todo el stage (placa + bleed).
+const PLATE_W = 4
+const PLATE_H = PLATE_W / ASPECT
+const PRINT_W = PLATE_W * (STAGE_W / FRAME_W)
+const PRINT_H = PLATE_H * (STAGE_H / FRAME_H)
+
 function PlacaMesh({ texture }: { texture: THREE.Texture }) {
-  const w = 4
-  const h = w / ASPECT
-
-  // Solo la cara frontal lleva la textura; el resto es un canto sólido. Así la cara
-  // trasera no espeja/duplica el contenido. Orden de caras del box: [px, nx, py, ny, pz(frente), nz(atrás)].
-  const materials = useMemo(() => {
-    const edge = new THREE.MeshStandardMaterial({ color: '#e5e7eb', roughness: 0.7, metalness: 0.05 })
-    const face = new THREE.MeshStandardMaterial({
-      map: texture,
-      transparent: true,
-      alphaTest: 0.5,
-      side: THREE.FrontSide,
-      roughness: 0.65,
-      metalness: 0.05,
-    })
-    return [edge, edge, edge, edge, face, edge]
-  }, [texture])
-
   return (
-    <mesh castShadow material={materials}>
-      {/* Caja fina: da grosor de marco; el centro transparente del PNG (alphaTest) se ve a través. */}
-      <boxGeometry args={[w, h, 0.14]} />
-    </mesh>
+    <group>
+      {/* Cuerpo: slab blanco con grosor. Respaldo opaco ⇒ la cara trasera no duplica el
+          contenido y el centro se ve blanco (consistente con la tarjeta blanca del 2D). */}
+      <mesh castShadow>
+        <boxGeometry args={[PLATE_W, PLATE_H, 0.14]} />
+        <meshStandardMaterial color="#ffffff" roughness={0.7} metalness={0.05} />
+      </mesh>
+      {/* Impreso: plano del tamaño del stage completo. alphaTest descarta los márgenes
+          transparentes, así solo se ven el marco y los objetos; los que cruzan el borde
+          sobresalen como stickers más allá del canto. FrontSide ⇒ cara trasera limpia. */}
+      <mesh position={[0, 0, 0.075]}>
+        <planeGeometry args={[PRINT_W, PRINT_H]} />
+        <meshStandardMaterial
+          map={texture}
+          transparent
+          alphaTest={0.5}
+          side={THREE.FrontSide}
+          roughness={0.65}
+          metalness={0.05}
+        />
+      </mesh>
+    </group>
   )
 }
 
@@ -43,9 +49,8 @@ export default function Placa3D({ stageRef }: { stageRef: React.RefObject<Konva.
   useEffect(() => {
     const stage = stageRef.current
     if (!stage) return
-    // Recorta a la región de la placa (la capa está desplazada por MARGIN) para conservar
-    // el aspecto 4:3 y el look limpio del producto físico.
-    const url = stage.toDataURL({ x: MARGIN, y: MARGIN, width: FRAME_W, height: FRAME_H, pixelRatio: 2 })
+    // Snapshot completo (placa + bleed) para que los objetos que sobresalen entren en la textura.
+    const url = stage.toDataURL({ pixelRatio: 2 })
     const loader = new THREE.TextureLoader()
     loader.load(url, (t) => {
       t.colorSpace = THREE.SRGBColorSpace
