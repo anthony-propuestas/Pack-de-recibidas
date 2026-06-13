@@ -3,7 +3,7 @@
 import { useRef, useEffect } from 'react'
 import { Stage, Layer, Transformer } from 'react-konva'
 import type Konva from 'konva'
-import { FRAME_W, FRAME_H } from '@/lib/frameConfig'
+import { STAGE_W, STAGE_H, MARGIN } from '@/lib/frameConfig'
 import type { ColorScheme } from '@/lib/themes'
 import type { PlacaElement } from '@/lib/elements'
 import { useFontsReady } from '@/lib/useFontsReady'
@@ -49,12 +49,14 @@ export default function PlacaCanvas({
   return (
     <Stage
       ref={stageRef}
-      width={FRAME_W}
-      height={FRAME_H}
+      width={STAGE_W}
+      height={STAGE_H}
       onMouseDown={handleStageMouseDown}
       onTouchStart={handleStageMouseDown}
     >
-      <Layer ref={layerRef}>
+      {/* La capa se desplaza por MARGIN: todo se dibuja en coords de placa (0..FRAME_W/H)
+          pero queda centrado dentro del stage agrandado, dejando bleed alrededor. */}
+      <Layer ref={layerRef} x={MARGIN} y={MARGIN}>
         <FrameTemplate color={color} />
         {elements.map((el) => (
           <ElementNode

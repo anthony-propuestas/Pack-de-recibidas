@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect, useCallback } from 'react'
 import type Konva from 'konva'
 import { THEMES, getTheme, getColorScheme, type Theme } from '@/lib/themes'
-import { FRAME_W, FRAME_H } from '@/lib/frameConfig'
+import { FRAME_W, FRAME_H, MARGIN } from '@/lib/frameConfig'
 import {
   buildDefaultElements, isDefaultId, type PlacaElement,
 } from '@/lib/elements'
@@ -114,24 +114,32 @@ export default function FrameEditor() {
               className="w-full flex justify-center"
               style={{ maxWidth: FRAME_W }}
             >
-              {/* Canvas 2D: siempre montado (en 3D queda oculto pero su bitmap alimenta la textura). */}
+              {/* Canvas 2D: siempre montado (en 3D queda oculto pero su bitmap alimenta la textura).
+                  La tarjeta mide lo que la placa; el stage es más grande (bleed) y sobresale con
+                  overflow visible para poder ver objetos que pasan el borde del marco. */}
               <div
-                className="overflow-hidden rounded-xl shadow-2xl border border-gray-100 bg-white"
+                className="rounded-xl shadow-2xl border border-gray-100 bg-white"
                 style={{
                   width: FRAME_W * scale,
                   height: FRAME_H * scale,
                   display: state.viewMode === '3d' ? 'none' : 'block',
                 }}
               >
-                <div style={{ width: FRAME_W, height: FRAME_H, transform: `scale(${scale})`, transformOrigin: 'top left' }}>
-                  <PlacaCanvas
-                    color={color}
-                    elements={state.elements}
-                    selectedId={state.selectedId}
-                    onSelect={selectElement}
-                    onChange={updateElement}
-                    stageRef={stageRef}
-                  />
+                <div
+                  className="relative"
+                  style={{ width: FRAME_W, height: FRAME_H, transform: `scale(${scale})`, transformOrigin: 'top left' }}
+                >
+                  {/* Offset negativo: la región de placa del stage (en MARGIN,MARGIN) se alinea con (0,0). */}
+                  <div className="absolute" style={{ left: -MARGIN, top: -MARGIN }}>
+                    <PlacaCanvas
+                      color={color}
+                      elements={state.elements}
+                      selectedId={state.selectedId}
+                      onSelect={selectElement}
+                      onChange={updateElement}
+                      stageRef={stageRef}
+                    />
+                  </div>
                 </div>
               </div>
 
